@@ -1,4 +1,18 @@
 /**
+ * 给定一个二叉树，返回它的中序 遍历。
+ *
+ * 示例:
+ *
+ * 输入: [1,null,2,3]
+ *    1
+ *     \
+ *      2
+ *     /
+ *    3
+ *
+ * 输出: [1,3,2]
+ * 进阶: 递归算法很简单，你可以通过迭代算法完成吗？
+ *
  * Definition for a binary tree node.
  * public class TreeNode {
  *     int val;
@@ -17,28 +31,47 @@ class Solution {
 
     List<Integer> list = new ArrayList<>();
 
-    public List<Integer> inorderTraversal(TreeNode root) {
+    public List<Integer> dfs(TreeNode root) {
         if (root == null) {
             return list;
         }
         if (root.left != null) {
-            inorderTraversal(root.left);
+            dfs(root.left);
         }
         list.add(root.val);
         if (root.right != null) {
-            inorderTraversal(root.right);
+            dfs(root.right);
+        }
+        return list;
+    }
+
+    public List<Integer> inorderTraversal(TreeNode root) {
+        Queue<TreeNode> queue = new LinkedList<>();
+        queue.add(root);
+        while (queue.size()>0) {
+            if (root.left!=null) {
+                queue.add(root.left);
+            }
         }
         return list;
     }
 
     public static void main(String[] args) {
         Solution solution = new Solution();
-        TreeNode tree = new TreeNode();
-        tree.val = 1;
-        tree.right.val = 2;
+
+
         TreeNode lastNode = new TreeNode();
         lastNode.val = 3;
-        tree.right.left = lastNode;
+
+        TreeNode rightNode = new TreeNode();
+        rightNode.left = lastNode;
+        rightNode.val = 2;
+
+        TreeNode tree = new TreeNode();
+        tree.val = 1;
+        tree.right = rightNode;
+
+
         List<Integer> list = solution.inorderTraversal(tree);
         System.out.println(list.toString());
     }
